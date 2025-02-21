@@ -1,19 +1,22 @@
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.scroll-btn').forEach(link => {
-        link.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default anchor behavior
+document.querySelectorAll('.scroll-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
 
-            const targetId = this.dataset.target;
+        const targetId = this.getAttribute('href').substring(1);
+        const offset = 70;
 
-            if (targetId === "hero") {
-                // Scroll to the top of the page if Home is clicked
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            } else {
-                const target = document.getElementById(targetId);
-                if (target) {
-                    target.scrollIntoView({ behavior: "smooth" });
-                }
+        if (targetId === "") {
+            // If href is "#", scroll to the top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ 
+                    top: elementPosition - offset, 
+                    behavior: 'smooth' 
+                });
             }
-        });
+        }
     });
 });
